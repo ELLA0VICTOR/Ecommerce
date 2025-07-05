@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Thank You</title>
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" />
+  <style>
+    body {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+    .thanks-box {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 50px;
+      border-radius: 15px;
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    }
+    .thanks-box h1 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+    }
+    .thanks-box p {
+      font-size: 1.2rem;
+    }
+    .thanks-box .btn {
+      margin-top: 25px;
+    }
+    .checkmark {
+      font-size: 60px;
+      color: #28a745;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="thanks-box">
+    <div class="checkmark">✔️</div>
+    <h1>Thank you for your purchase!</h1>
+    <p>Your order has been successfully placed.</p>
+    <a href="{% url 'product_list' %}" class="btn btn-success">Continue Shopping</a>
+  </div>
+
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

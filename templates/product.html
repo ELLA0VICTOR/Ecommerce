@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Product List</title>
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+  <style>
+    body {
+      background-color: #000;
+      color: #fff;
+    }
+    h2 {
+      color: #fff;
+    }
+    .product-card {
+      background-color: #111;
+      color: #fff;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .product-card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+    }
+    .product-img {
+      height: 200px;
+      object-fit: cover;
+    }
+    .card-title {
+      color: #fff;
+    }
+    .card-text {
+      color: #0d6efd; /* Bootstrap primary color */
+    }
+    /* Cart badge styles */
+    .btn-cart {
+      position: relative;
+    }
+    .btn-cart .badge {
+      position: absolute;
+      top: 0;
+      right: 0;
+      transform: translate(50%, -50%);
+    }
+  </style>
+</head>
+<body>
+
+  <main class="container my-5">
+
+    <!-- Go to Cart Button with Badge -->
+    <div class="d-flex justify-content-end mb-4">
+      <a href="{% url 'cart' %}" class="btn btn-primary btn-cart">
+        <i class="bi bi-cart"></i> Go to Cart
+        {% if cart_count > 0 %}
+          <span class="badge bg-danger rounded-pill">{{ cart_count }}</span>
+        {% endif %}
+      </a>
+    </div>
+
+    <h2 class="text-center mb-4">Our Featured Products</h2>
+    
+    <div class="row g-4">
+      {% for product in products %}
+      <div class="col-md-6 col-lg-4">
+        <div class="card product-card h-100">
+          <img src="{{ product.image.url }}" class="card-img-top product-img" alt="{{ product.name }}">
+          <div class="card-body d-flex flex-column justify-content-between">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text fw-bold">₦{{ product.price }}</p>
+            <div class="d-grid mt-3">
+              <form method="POST" action="{% url 'add_to_cart' product.id %}">
+                {% csrf_token %}
+                <button class="btn btn-outline-primary w-100">Add to Cart</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </main>
+
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>
