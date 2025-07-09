@@ -9,6 +9,16 @@ urlpatterns = [
     path('add-to-cart/<int:product_id>/', views.add_to_cart, name='add_to_cart'),
     path('cart/', views.cart_view, name='cart'),
     path('checkout/', views.checkout_view, name='checkout'),
+    path('remove-one/<int:product_id>/', views.remove_one_from_cart, name='remove_one_from_cart'),
+    path('remove-all/<int:product_id>/', views.remove_all_from_cart, name='remove_all_from_cart'),
+    path('contact/', views.contact_view, name='contact'),
+    path('profile/', views.user_view, name='user'),
+    path('faq/', views.faq_view, name='faq'),
+    path('error_404/', views.error_view, name='error'),
+    path('blank/', views.blank_view, name='blank'),
+
+   
+
     
     # ✅ New payment verify URL
     path('payment-verify/', views.payment_verify, name='payment_verify'),

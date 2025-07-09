@@ -47,7 +47,7 @@ def dashboard_summary(request):
         'customer_growth': customer_growth
     })
 
-
+@login_required
 def admin_dashboard(request):
     recent_orders = Order.objects.select_related('user').prefetch_related('items__product').order_by('-created_at')[:10]
     activities = Activity.objects.select_related('user').order_by('-timestamp')[:10]
@@ -227,7 +227,7 @@ def budget_report(request):
 @login_required
 def payment_verify(request):
     ref = request.GET.get('ref')
-    headers = {"Authorization": "Bearer sk_test_faab9e87ba97a4ca8a7b6b13f52fee5852c01d95"}
+    headers = {"Authorization": "Bearer sk_test_fd756668f87f3bc0b138cd34b76a5d59132da373"}
     url = f"https://api.paystack.co/transaction/verify/{ref}"
 
     response = requests.get(url, headers=headers).json()
@@ -253,3 +253,50 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def thanks_view(request):
     return render(request, 'thanks.html')
+@login_required
+def remove_from_cart(request, product_id):
+    cart = request.session.get('cart', {})
+    if str(product_id) in cart:
+        del cart[str(product_id)]
+        request.session['cart'] = cart
+    return redirect('cart')
+@login_required
+def remove_one_from_cart(request, product_id):
+    cart = request.session.get('cart', {})
+    pid = str(product_id)
+    if pid in cart:
+        if cart[pid] > 1:
+            cart[pid] -= 1
+        else:
+            del cart[pid]
+    request.session['cart'] = cart
+    return redirect('cart')
+
+@login_required
+def remove_all_from_cart(request, product_id):
+    cart = request.session.get('cart', {})
+    pid = str(product_id)
+    if pid in cart:
+        del cart[pid]
+    request.session['cart'] = cart
+    return redirect('cart')
+
+@login_required
+def contact_view(request):
+    return render(request, 'pages-contact.html')
+
+@login_required
+def user_view(request):
+    return render(request, 'profile.html')
+
+@login_required
+def faq_view(request):
+    return render(request, 'faq.html')
+
+@login_required
+def error_view(request):
+    return render(request, 'error404.html')
+
+@login_required
+def blank_view(request):
+    return render(request, 'blank.html')
